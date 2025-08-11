@@ -1,0 +1,8 @@
+ClassSequenceTiming			KEYWORD1
+set_nextStep				KEYWORD2
+loop						KEYWORD2
+get_actualStep				KEYWORD2
+printActualStep			KEYWORD2
+get_error_latestStartNextStepElapsed			KEYWORD2
+setRetryTheActualStep		KEYWORD2
+set_forceStepImmediately	KEYWORD2

@@ -1,3 +1,4 @@
+This is my first time I use github and release it to a arduino library. For any suggestions, please let me know. andreas.rosenheim@gmail.com
 
 If you want to use a sequence chain, you have very often to use timing. Than you should use "sequenceTiming".\
 Advantage:

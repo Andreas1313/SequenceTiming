@@ -1,6 +1,6 @@
 
 If you want to use a sequence chain, you have very often to use timing. Than you should use "sequenceTiming".\
-Advantage:\
+Advantage:
 - startDelay of every step (see End/Start-Delay below)
 - endDelay of every step   (see End/Start-Delay below)
 - Error when time is elapsed. It will give an error and block the next step. But this can also be used for normal function.

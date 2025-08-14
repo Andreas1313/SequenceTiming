@@ -39,7 +39,7 @@ At larger projects, it can be clearely arranged to separate in "after power up",
 Strongly recommended: Use at the end of "after power up" and "normal run" a step where you really do nothing (also not jump to other step).\
 Only a complete reset should start from beginning. If you do a complete reset per software, be aware which steps you activate in which order.
 
-***Just for information***
+***Just for information***\
 - If you want to restart the actual step, just do as an example: "blink_1.set_nextStep(blink_1.get_actualStep());"
 
 ***get_error_latestStartNextStepElapsed***\

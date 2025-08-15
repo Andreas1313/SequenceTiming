@@ -1,6 +1,6 @@
 This is my first time I use github and release it to a arduino library. For any suggestions, please let me know. andreas.rosenheim@gmail.com
 
-If you want to use a sequence chain, you have very often to use timing. Than you should use "sequenceTiming".\
+If you want to use a sequence chain, you have very often to use timing. Than you should use "SequenceTiming".\
 Advantage:
 - startDelay of every step (see End/Start-Delay below)
 - endDelay of every step   (see End/Start-Delay below)
@@ -14,7 +14,7 @@ Disadvantage:
 - more memory is necessary, because of the timing for every step
 
 Information:
-- You still need the switch case (or if) structure.
+- You should be familiar with switch case with enum-class. This is still needed.
 - in general a sequence chain is complex for small chains, but when you have larger chains it is getting structurated
 - Debounce of a switch-button is not included, but normally at a sequence chain only necessary when you do not have a following step.
   Example where you need it: To activate something very fast or when you -release- a button, you should use debounce.

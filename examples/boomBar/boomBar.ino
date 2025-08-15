@@ -1,4 +1,4 @@
-#include "sequenceTiming.h"
+#include "SequenceTiming.h"
 
 enum class GateStep{
   S0_DoNothing,

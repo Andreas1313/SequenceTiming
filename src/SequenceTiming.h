@@ -2,9 +2,9 @@
 Licensed under CC BY-NC-SA 4.0: https://creativecommons.org/licenses/by-nc-sa/4.0/.
 -Credit required  -Share alike  -No warranty provided
 -Free for private use.
--Free for prototype use, but send an e-mail that you want to use it for prototype to andreas.rosenheim@gmail.com. You can start immediately, you do not have to wait for a answer.
--Contact for commercial use: andreas.rosenheim@gmail.com.
- (You only have to donate to "Doctors Without Borders", or similar institution. Which should be tax-deductible)*/
+-Free for prototype use, but send an e-mail that you want to use it for prototype to andreas.rosenheim@gmail.com. You can directly start. You do not have to wait for an answer.
+-Contact for commercial use: andreas.rosenheim@gmail.com.(You only have to donate to "Doctors Without Borders",
+ or similar institution. Which should be tax-deductible)*/
 
 #pragma once
 //Important: call sequenceProcess() at every loop.
@@ -71,4 +71,4 @@ class ClassSequenceTiming {
   //get the error, when the time is elapsed. See more information in info.adoc:
   bool get_error_latestStartNextStepElapsed();
 };
-#include "sequenceTiming.tpp"
+#include "SequenceTiming.tpp"

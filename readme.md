@@ -14,8 +14,8 @@ Disadvantage:
 - more memory is necessary, because of the timing for every step
 
 Information:
+- This has nothing to do with a sequencer for music. It is a step sequencer.
 - You should be familiar with switch case with enum-class. This is still needed.
-- in general a sequence chain is complex for small chains, but when you have larger chains it is getting structurated
 - Debounce of a switch-button is not included, but normally at a sequence chain only necessary when you do not have a following step.
   Example where you need it: To activate something very fast or when you -release- a button, you should use debounce.
 - Timing over more steps is not included
@@ -33,6 +33,7 @@ You can use it for
 - First measurement, and than set the start/end delay, Error when time is elapsed, Error when the next step was to fast
 
 ***suggestion to use a sequence chain in general***\
+A sequence chain is complex for small chains, but when you have larger chains it is getting structurated\
 In one sequence chain always only one step can be active.\
 So at smaller projects, use one sequence chain where you want that only one step is active.\
 If you really want to split a sequence chain (where only one reasonable step is active):\

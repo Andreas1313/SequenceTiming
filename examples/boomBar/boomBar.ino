@@ -59,18 +59,18 @@ ClassSequenceTiming<BlinkLight> signalLight(BlinkLight::S0_DoNothing,
                             outputFromClass_stepTimeSignalLight_ms);
 
 //input pins:
-const pin_size_t resetAndStartButton_pin  {A0};
-const pin_size_t downSwitch_pin           {A1};
-const pin_size_t requestSwitch_pin        {A2};
-const pin_size_t nearlyUpSwitch_pin       {A3};
-const pin_size_t upSwitch_pin             {A4};
-const pin_size_t lightBarrier_pin         {A5};
-const pin_size_t nearlyDown_pin           {A6};
+const uint8_t resetAndStartButton_pin  {A0};
+const uint8_t downSwitch_pin           {A1};
+const uint8_t requestSwitch_pin        {A2};
+const uint8_t nearlyUpSwitch_pin       {A3};
+const uint8_t upSwitch_pin             {A4};
+const uint8_t lightBarrier_pin         {A5};
+const uint8_t nearlyDown_pin           {A6};
 
 //output pins:
-const pin_size_t moveSlowDown_pin {0};
-const pin_size_t moveUp_pin       {1};
-const pin_size_t moveSlowUp_pin   {2};
-const pin_size_t moveDown_pin     {3};
-const pin_size_t blinkYellow_pin  {LED_BUILTIN};
-const pin_size_t blinkError_pin   {4};
+const uint8_t moveSlowDown_pin {0};
+const uint8_t moveUp_pin       {1};
+const uint8_t moveSlowUp_pin   {2};
+const uint8_t moveDown_pin     {3};
+const uint8_t blinkYellow_pin  {LED_BUILTIN};
+const uint8_t blinkError_pin   {4};

@@ -1,5 +1,5 @@
-//You have to set A0_pin to GND and wait 2 sec to activate the step S2_Output_LED_BUILTIN.
-//You have to set A1_pin to GND and wait 2 sec to activate S1_Output_D0
+//You have to set A0_pin to GND and wait 2000ms to activate the step S2_Output_LED_BUILTIN.
+//You have to set A1_pin to GND and wait 2000ms to activate S1_Output_D0
 void sequenceLoopSimple(){
   switch (simple_1.get_actualStep()){
     case Step::S0_DoNothing:

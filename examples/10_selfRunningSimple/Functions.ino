@@ -1,4 +1,4 @@
-//If Step S1_Output_D0 is one time active (in setup()), it change every 2sec from step S2_Output_LED_BUILTIN to step S1_Output_D0
+//If Step S1_Output_D0 is one time active (in setup()), it change every 2000ms between step S2_Output_LED_BUILTIN and step S1_Output_D0
 void sequenceLoopSimple(){
   switch (simple_1.get_actualStep()){
     case Step::S0_DoNothing:

@@ -21,10 +21,12 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
+ 
       - name: Install Arduino CLI
         uses: arduino/setup-arduino-cli@v1
         with:
-          version: latest
+          version: 1.3.0  # feste Version
+
 
       - name: Install cores
         run: |

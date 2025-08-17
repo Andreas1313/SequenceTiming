@@ -45,7 +45,7 @@ The next step could be "wash", followed by a transition that checks whether the 
 and so on.
 
 ***Documentation of this SequenceTiming library***\
-See docs folder.
+See docs folder at https://github.com/Andreas1313/SequenceTiming
 ***
 ***Key Words***\
 step, sequence, sequencer, chain, state, machine, time, based, automation

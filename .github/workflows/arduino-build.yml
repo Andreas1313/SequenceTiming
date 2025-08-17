@@ -13,14 +13,23 @@ jobs:
         fqbn:
           - arduino:avr:uno
           - arduino:avr:mega
+          - arduino:sam:arduino_due_x
+          - esp32:esp32:esp32
+          - arduino:mbed_rp2040:rpipico
+
     steps:
       - uses: actions/checkout@v4
 
       - name: Set up Arduino CLI
         uses: arduino/setup-arduino-cli@v1
 
-      - name: Install AVR core
-        run: arduino-cli core install arduino:avr
+      - name: Install cores
+        run: |
+          arduino-cli core update-index
+          arduino-cli core install arduino:avr
+          arduino-cli core install arduino:sam
+          arduino-cli core install esp32:esp32
+          arduino-cli core install arduino:mbed_rp2040
 
       - name: Compile examples
         run: |

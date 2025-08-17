@@ -1,0 +1,45 @@
+name: Arduino CI Build
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        fqbn:
+          - arduino:avr:uno
+          - arduino:avr:mega
+          - arduino:sam:arduino_due_x
+          - esp32:esp32:esp32
+          - rp2040:rp2040:arduino_nano_rp2040_connect
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Install Arduino CLI
+        uses: arduino/setup-arduino-cli@v1
+        with:
+          version: latest
+
+      - name: Install cores
+        run: |
+          arduino-cli core update-index
+          # Installiere alle benötigten Core-Familien (nicht jedes Board einzeln)
+          arduino-cli core install arduino:avr
+          arduino-cli core install arduino:sam
+          arduino-cli core install esp32:esp32
+          arduino-cli core install rp2040:rp2040
+
+      - name: Compile examples for ${{ matrix.fqbn }}
+        run: |
+          for sketchdir in $(find examples -type d); do
+            if ls $sketchdir/*.ino > /dev/null 2>&1; then
+              echo "⏳ Building $sketchdir for ${{ matrix.fqbn }}"
+              arduino-cli compile --fqbn ${{ matrix.fqbn }} $sketchdir
+            fi
+          done

@@ -1,3 +1,18 @@
+//To run, do not wait to long between the steps:
+//A0 to GND. Step 1
+//A0 Remove GND. Step 2
+//A1 to GND. Step 3
+//A2 to GND. Step 4
+//A3 to GND. Step 5
+//A4 to GND. Step 6
+//A5 to GND. Step 7
+//Wait 5 sec, until Step8 is active
+//A6 to GND. Step 9
+//A1 to GND. Step 3
+//A2 to GND. Step 4
+//..
+//To reset: A0 to GND
+
 void sequenceLoopGateBarrier(){
   gate_1.sequenceProcess();
 

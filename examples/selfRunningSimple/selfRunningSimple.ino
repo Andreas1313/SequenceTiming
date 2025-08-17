@@ -24,5 +24,5 @@ ClassSequenceTiming<Step> simple_1(Step::S0_DoNothing,  //Very first Step to sta
                             outputFromClass_stepTime_ms);
 
 //output pins:
-const uint8_t D0_pin  {0};
+const uint8_t D0_pin           {0};
 const uint8_t LED_BUILTIN_pin  {LED_BUILTIN};

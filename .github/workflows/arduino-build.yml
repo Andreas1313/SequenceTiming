@@ -15,6 +15,7 @@ jobs:
           - arduino:avr:mega
           - arduino:sam:arduino_due_x
           - esp32:esp32:esp32
+          - rp2040:rp2040:arduino_nano_rp2040_connect
           - arduino:mbed_rp2040:rpipico
 
     steps:

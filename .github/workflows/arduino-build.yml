@@ -37,7 +37,7 @@ jobs:
           arduino-cli core install arduino:avr
           arduino-cli core install arduino:sam
           arduino-cli core install esp32:esp32
-          arduino-cli core install rp2040:rp2040
+          #arduino-cli core install rp2040:rp2040
 
       - name: Compile examples for ${{ matrix.fqbn }}
         run: |

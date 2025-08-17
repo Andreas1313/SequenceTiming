@@ -26,5 +26,5 @@ jobs:
         run: |
           for sketch in $(find examples -name "*.ino"); do
             echo "Compiling $sketch for ${{ matrix.fqbn }}"
-            arduino-cli compile --fqbn ${{ matrix.fqbn }} $sketch
+            arduino-cli compile --fqbn ${{ matrix.fqbn }} --library ./src $sketch
           done

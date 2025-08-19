@@ -26,7 +26,7 @@ If you want to use a sequence chain, you have very often to use timing. Then you
 - Timing over more steps is not included
 ***
 ***Documentation of this SequenceTiming library***\
-See docs folder at https://github.com/Andreas1313/SequenceTiming
+https://github.com/Andreas1313/SequenceTiming/docs
 ***
 ***Keywords***\
 step, sequence, sequencer, chain, state, machine, time, based, automation

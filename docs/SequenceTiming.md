@@ -10,6 +10,7 @@ Hint for earliestStartNextStep_ms and latestStartNextStep_ms. When you want a st
 - Set for example: earliestStartNextStep_ms = yourMeasuredTime_ms / 10.
 - Set for example: latestStartNextStep_ms = yourMeasuredTime_ms * 10.
 - Set only critical timings nearer to yourMeasuredTime.
+
 <img src="picturesFromDocument/110_TimingDiagramm.jpg"  width=90% height=90%>
 
 1) Transit 0->2:&emsp;&emsp;You can transit between every step
@@ -22,7 +23,9 @@ Hint for earliestStartNextStep_ms and latestStartNextStep_ms. When you want a st
 8) Transit 1->2:&emsp;&emsp;A transit  can be very long. But of course should be back when this step is called again.
 ***
 **Error**
+
 <img src="picturesFromDocument/110_TimingDiagrammError.jpg"  width=90% height=90%>
+
 1) earliestStartNextStep Step3:&emsp;&emsp;The error is immediately when the transit is to early.
 The Step4 is not activated here, because of the error.
 A startDelay Step4 would not be part of the earliestStartNextStep. So this timing graph would exactly look the same.

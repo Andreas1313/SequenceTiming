@@ -1,4 +1,6 @@
-                Step Sequence Timing               19 Aug 2025 Andreas1313
+                Step Sequence with Timing               19 Aug 2025 Andreas1313
+***
+&emsp;&emsp;**Normal Timing Diagramm**
 Example for a possible timing for the timing diagramm below:\
 
 <img src="picturesFromDocument/100_StepTimeTable.jpg"  width=70% height=70%>
@@ -18,7 +20,7 @@ c) latestStartNextStep_ms: The next transit must be in this time. 0 is to switch
 7) forceStep 1 (Reset):&emsp;&emsp;Here we jump to Step1 and not to Step0. Perhaps you want to do something different from normal startup at a reset.
 8) Transit 1->2:&emsp;&emsp;A transit  can be very long. But of course should be back when this step is called again.
 ***
-**Error**
+&emsp;&emsp;**Error**
 
 <img src="picturesFromDocument/120_TimingDiagrammError.jpg"  width=90% height=90%>
 
@@ -69,7 +71,7 @@ The stepTime is the time the step is active.
 You can use it for
   - Time tracking
   - First measurement, and than set the start/end delay.
-
+***
 &emsp;&emsp;**General Information**
 - General sequence chain information
 Sequence programming is a programming paradigm that divides a process into a series of steps and transitions.
@@ -114,7 +116,7 @@ A transition is a condition that must be met for the process to move from the cu
 
   - Sequence
 The step chain consists of a sequence of steps and transitions, where each step triggers actions and each transition enables the transition to the next step.
-
+***
 &emsp;&emsp;**Hints for professional users**
 
 A force to the actual step make sense. Example: When you have an error, you can repeat the actual step.
@@ -127,7 +129,7 @@ When you do not have this error, you can skip the next step (with the longer lat
 
 When the step after the next step should not be active immediately (which should be the normal case) you can use earliestStartNextStep: When you do not want to allow that the next transfer is already active, when the actual step getting active, than set earliestStartNextStep to a value a little bit more than your processor loop time. It will throw an error when the next step would be immediately activated.
 
-First start values for earliestStartNextStep_ms and latestStartNextStep_ms. When you want a stable run, but also an error, when something is totally running wrong.
+First start values for earliestStartNextStep_ms and latestStartNextStep_ms. When you want a stable run, but also an error, when something is totally running wrong:
 - Set all earliestStartNextStep_ms and latestStartNextStep_ms to 0.
 - Measure the timing (with this library).
 - Set for example: earliestStartNextStep_ms = yourMeasuredTime_ms / 10.

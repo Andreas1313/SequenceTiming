@@ -1,15 +1,11 @@
                 Step Sequence Timing               19 Aug 2025 Andreas1313
 Example for a possible timing for the timing diagramm below:\
-<img src="picturesFromDocument/100_StepTimeTable.jpg"  width=50% height=50%>
-a)  Because forceStep skips the startDelay, I would use startDelay only where it makes sense. endDelay is the normal delay.
-b) earliestStartNextStep_ms: When this time is elapsed, it is allowed to transfer to the next step.
+
+<img src="picturesFromDocument/100_StepTimeTable.jpg"  width=70% height=70%>
+
+a)  Because forceStep skips the startDelay, I would use startDelay only where it makes sense. endDelay is the normal delay.\
+b) earliestStartNextStep_ms: When this time is elapsed, it is allowed to transfer to the next step.\
 c) latestStartNextStep_ms: The next transit must be in this time. 0 is to switch it totally off.
-Hint for earliestStartNextStep_ms and latestStartNextStep_ms. When you want a stable run, but also an error, when something is totally running wrong.
-- Set all earliestStartNextStep_ms and latestStartNextStep_ms to 0.
-- Measure the timing (with this library).
-- Set for example: earliestStartNextStep_ms = yourMeasuredTime_ms / 10.
-- Set for example: latestStartNextStep_ms = yourMeasuredTime_ms * 10.
-- Set only critical timings nearer to yourMeasuredTime.
 
 <img src="picturesFromDocument/110_TimingDiagramm.jpg"  width=90% height=90%>
 
@@ -24,7 +20,7 @@ Hint for earliestStartNextStep_ms and latestStartNextStep_ms. When you want a st
 ***
 **Error**
 
-<img src="picturesFromDocument/110_TimingDiagrammError.jpg"  width=90% height=90%>
+<img src="picturesFromDocument/120_TimingDiagrammError.jpg"  width=90% height=90%>
 
 1) earliestStartNextStep Step3:&emsp;&emsp;The error is immediately when the transit is to early.
 The Step4 is not activated here, because of the error.
@@ -120,6 +116,7 @@ A transition is a condition that must be met for the process to move from the cu
 The step chain consists of a sequence of steps and transitions, where each step triggers actions and each transition enables the transition to the next step.
 
 &emsp;&emsp;**Hints for professional users**
+
 A force to the actual step make sense. Example: When you have an error, you can repeat the actual step.
 The earliestStartNextStep of this step and the latestStartNextStep of this step also start from beginning.
 example: "blink_1.set_nextStep(blink_1.get_actualStep());"
@@ -129,3 +126,10 @@ Show a warning when you have the error and transfer to next step with a longer l
 When you do not have this error, you can skip the next step (with the longer latestStartNextStep time).
 
 When the step after the next step should not be active immediately (which should be the normal case) you can use earliestStartNextStep: When you do not want to allow that the next transfer is already active, when the actual step getting active, than set earliestStartNextStep to a value a little bit more than your processor loop time. It will throw an error when the next step would be immediately activated.
+
+First start values for earliestStartNextStep_ms and latestStartNextStep_ms. When you want a stable run, but also an error, when something is totally running wrong.
+- Set all earliestStartNextStep_ms and latestStartNextStep_ms to 0.
+- Measure the timing (with this library).
+- Set for example: earliestStartNextStep_ms = yourMeasuredTime_ms / 10.
+- Set for example: latestStartNextStep_ms = yourMeasuredTime_ms * 10.
+- Set only critical timings nearer to yourMeasuredTime.

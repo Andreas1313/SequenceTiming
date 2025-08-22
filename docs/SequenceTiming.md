@@ -5,7 +5,7 @@ Example for a possible timing for the timing diagramm below:
 
 <img src="picturesFromDocument/100_StepTimeTable.jpg"  width=70% height=70%>
 
-a)  Because forceStep skips the startDelay, I would use startDelay only where it makes sense. endDelay is the normal delay.\
+a) Because forceStep skips the startDelay, I would use startDelay only where it makes sense. endDelay is the normal delay.\
 b) earliestStartNextStep_ms: When this time is elapsed, it is allowed to transfer to the next step.\
 c) latestStartNextStep_ms: The next transit must be in this time. 0 is to switch it totally off.
 
@@ -129,14 +129,26 @@ When you do not have this error, you can skip the next step (with the longer lat
 
 When the step after the next step should not be active immediately (which should be the normal case) you can use earliestStartNextStep: When you do not want to allow that the next transfer is already active, when the actual step getting active, than set earliestStartNextStep to a value a little bit more than your processor loop time. It will throw an error when the next step would be immediately activated.
 
-First start values for earliestStartNextStep_ms and latestStartNextStep_ms. When you want a stable run, but also an error, when something is totally running wrong:
+First start values for earliestStartNextStep_ms and latestStartNextStep_ms. When you want a stable run, but also an error, when something is totally running wrong use factor 10:
 - Set all earliestStartNextStep_ms and latestStartNextStep_ms to 0.
 - Measure the timing (with this library).
 - Set for example: earliestStartNextStep_ms = yourMeasuredTime_ms / 10.
 - Set for example: latestStartNextStep_ms = yourMeasuredTime_ms * 10.
 - Set only critical timings nearer to yourMeasuredTime.
+Please note, that a latestStartNextStep_ms < processor loop time makes no sense.
+***
+***advantages and disadvantages***
+
+You can find advantages and disadvantages of this library at the README at:
+https://github.com/Andreas1313/SequenceTiming
+
+***
+***to do***
+- Think about to implement an error check that _in_earliestStartNextStep_ms < _in_latestStartNextStep_ms
+
 ***
 ***License***
+
 Copyright (c) 2025. Andreas1313. 83022 Rosenheim. Germany. No:250803_sT_C_0_132
 Licensed under CC BY-NC-SA 4.0: https://creativecommons.org/licenses/by-nc-sa/4.0/.
 -Credit required  -Share alike  -No warranty provided

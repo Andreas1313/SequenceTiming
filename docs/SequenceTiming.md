@@ -33,8 +33,6 @@ A startDelay Step4 would not be part of the earliestStartNextStep. So this timin
    - latestStartNextStep (and earliestStartNextStep) always start at the activation of a step.
 
 3\) latestStartNextStep Step4:&emsp;&emsp;The error is immediately when the latestStartNextStep is elapsed.
-
-Because forceStep skips the startDelay, I would use startDelay only where it makes sense. endDelay is the normal delay.
 ***
 &emsp;&emsp;**Functions and pointer variables**
 - void set_nextStep(StepType nextStep)

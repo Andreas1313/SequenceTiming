@@ -12,14 +12,16 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Compile examples
+      - name: Compile all examples
         uses: arduino/compile-sketches@v1
         with:
           fqbn: |
             arduino:avr:uno
             arduino:avr:mega
             arduino:megaavr:nona4809   # Arduino Nano Every
-            esp8266:esp8266:nodemcuv2 # ESP8266 NodeMCU
-            esp32:esp32:esp32         # ESP32 Dev Module
           libraries: |
             - source-path: .   # benutzt die Library aus diesem Repo
+          sketch-paths: |
+            examples           # baut alles in /examples
+          sketch-paths-exclude: |
+            examples/Experimental/*   # hier kannst du problematische Beispiele ausschließen

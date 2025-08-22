@@ -1,4 +1,4 @@
-name: Arduino Build
+name: Arduino CI
 
 on:
   push:
@@ -7,34 +7,19 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        fqbn:
-          - arduino:avr:uno
-          - arduino:avr:mega
-          - arduino:sam:arduino_due_x
-          - esp32:esp32:esp32
-          - rp2040:rp2040:arduino_nano_rp2040_connect
-          - arduino:mbed_rp2040:rpipico
 
     steps:
-      - uses: actions/checkout@v4
-
-      - name: Set up Arduino CLI
-        uses: arduino/setup-arduino-cli@v1
-
-      - name: Install cores
-        run: |
-          arduino-cli core update-index
-          arduino-cli core install arduino:avr
-          arduino-cli core install arduino:sam
-          arduino-cli core install esp32:esp32
-          arduino-cli core install arduino:mbed_rp2040
+      - name: Checkout
+        uses: actions/checkout@v4
 
       - name: Compile examples
-        run: |
-          for sketch in $(find examples -name "*.ino"); do
-            echo "Compiling $sketch for ${{ matrix.fqbn }}"
-            arduino-cli compile --fqbn ${{ matrix.fqbn }} --library ./src $sketch
-          done
+        uses: arduino/compile-sketches@v1
+        with:
+          fqbn: |
+            arduino:avr:uno
+            arduino:avr:mega
+            arduino:megaavr:nona4809   # Arduino Nano Every
+            esp8266:esp8266:nodemcuv2 # ESP8266 NodeMCU
+            esp32:esp32:esp32         # ESP32 Dev Module
+          libraries: |
+            - source-path: .   # benutzt die Library aus diesem Repo

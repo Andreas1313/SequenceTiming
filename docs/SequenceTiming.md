@@ -1,7 +1,7 @@
                 Step Sequence with Timing               19 Aug 2025 Andreas1313
 ***
 &emsp;&emsp;**Normal Timing Diagramm**
-Example for a possible timing for the timing diagramm below:\
+Example for a possible timing for the timing diagramm below:
 
 <img src="picturesFromDocument/100_StepTimeTable.jpg"  width=70% height=70%>
 
@@ -135,3 +135,12 @@ First start values for earliestStartNextStep_ms and latestStartNextStep_ms. When
 - Set for example: earliestStartNextStep_ms = yourMeasuredTime_ms / 10.
 - Set for example: latestStartNextStep_ms = yourMeasuredTime_ms * 10.
 - Set only critical timings nearer to yourMeasuredTime.
+***
+***License***
+Copyright (c) 2025. Andreas1313. 83022 Rosenheim. Germany. No:250803_sT_C_0_132
+Licensed under CC BY-NC-SA 4.0: https://creativecommons.org/licenses/by-nc-sa/4.0/.
+-Credit required  -Share alike  -No warranty provided
+-Free for private use.
+-Free for prototype use, but send an e-mail that you want to use it for prototype to andreas.rosenheim@gmail.com. You can directly start. You do not have to wait for an answer.
+-Contact for commercial use: andreas.rosenheim@gmail.com.(You only have to donate to "Doctors Without Borders", or similar institution. Which should be tax-deductible)
+ 

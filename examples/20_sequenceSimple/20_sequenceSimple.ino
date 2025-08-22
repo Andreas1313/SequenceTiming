@@ -23,7 +23,6 @@ ClassSequenceTiming<Step> simple_1(Step::S0_DoNothing,  //Very first Step to sta
                             inputAtClass_endDelay_ms,
                             outputFromClass_stepTime_ms);
 
-
 //input pins:
 const uint8_t A0_pin  {A0};
 const uint8_t A1_pin  {A1};
@@ -31,3 +30,65 @@ const uint8_t A1_pin  {A1};
 //output pins:
 const uint8_t D0_pin          {0};
 const uint8_t LED_BUILTIN_pin {LED_BUILTIN};
+
+//You have to set A0_pin to GND and wait 2000ms to activate the step S2_Output_LED_BUILTIN.
+//You have to set A1_pin to GND and wait 2000ms to activate S1_Output_D0
+void sequenceLoopSimple(){
+  switch (simple_1.get_actualStep()){
+    case Step::S0_DoNothing:
+      break;
+    case Step::S1_Output_D0:
+      if ( ! digitalRead(A0_pin)){ //because of INPUT_PULLUP it is inverse with the "!"
+        simple_1.set_nextStep(Step::S2_Output_LED_BUILTIN);
+      }
+      break;
+    case Step::S2_Output_LED_BUILTIN:
+      if ( ! digitalRead(A1_pin)){
+        simple_1.set_nextStep(Step::S1_Output_D0);
+      }
+      break;
+    case Step::S3_DoNothing: //Not used
+      break;
+    default:
+      while(true){
+        Serial.println(F("Fatal Error. Wrong step"));
+        delay(10000);
+      }
+      break;
+  }
+
+//Separate the Output from the sequence:
+  digitalWrite(D0_pin, simple_1.get_actualStep() == Step::S1_Output_D0);
+  digitalWrite(LED_BUILTIN_pin, simple_1.get_actualStep() == Step::S2_Output_LED_BUILTIN);
+}
+
+void setup(){
+  Serial.begin(115200);
+  while( ! Serial){}
+  delay(100);
+  Serial.println();
+  Serial.println(F( __DATE__"," __TIME__));
+
+  pinMode(A0_pin,    INPUT_PULLUP);
+  pinMode(A1_pin,    INPUT_PULLUP);
+  pinMode(D0_pin,             OUTPUT);
+  pinMode(LED_BUILTIN_pin,    OUTPUT);
+
+
+  //The S0_DoNothing is active from the constructor of the class. But to start, we have to set it to step 1 (S1_Output_D0):
+  simple_1.set_nextStep(Step::S1_Output_D0);  
+}
+
+void loop(){
+   //This two calls are all you need in loop():
+  simple_1.sequenceProcess(); 
+  sequenceLoopSimple();
+
+//This is only for Serial print:
+  static Step oldStep = Step::VeryLastEnum;
+  if(oldStep != simple_1.get_actualStep()){ //If the step change, print the actual step
+    oldStep = simple_1.get_actualStep();
+    Serial.print(F("Actual Step (int): "));
+    Serial.println(uint32_t(simple_1.get_actualStep())); //to convert the type "Step" to int use uint32_t(...
+  }
+}

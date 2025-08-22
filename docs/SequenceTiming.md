@@ -11,27 +11,28 @@ c) latestStartNextStep_ms: The next transit must be in this time. 0 is to switch
 
 <img src="picturesFromDocument/110_TimingDiagramm.jpg"  width=90% height=90%>
 
-1) Transit 0->2:&emsp;&emsp;You can transit between every step
-2) endDelay Step2:&emsp;&emsp;After the endDelay it switches to the next step.   
-3) endDelay Step3   startDelay Step4&emsp;&emsp;If you have both, they are cumulated
-4) earliestStartNextStep Step4:&emsp;&emsp;After this time is elapsed, it is allowed to transit to the next Step(5). See error page.
-5) latestStartNextStep Step4:&emsp;&emsp;Before this time is elapsed, the transit to Step(5) must be done. See error page.
-6) Transit 4->5:&emsp;&emsp;It is between end of earliestStartNextStep Step4 and latestStartNextStep Step4, so it is correct.
-7) forceStep 1 (Reset):&emsp;&emsp;Here we jump to Step1 and not to Step0. Perhaps you want to do something different from normal startup at a reset.
-8) Transit 1->2:&emsp;&emsp;A transit  can be very long. But of course should be back when this step is called again.
+1\) Transit 0->2:&emsp;&emsp;You can transit between every step\
+2\) endDelay Step2:&emsp;&emsp;After the endDelay it switches to the next step.\  
+3\) endDelay Step3   startDelay Step4&emsp;&emsp;If you have both, they are cumulated.\
+4\) earliestStartNextStep Step4:&emsp;&emsp;After this time is elapsed, it is allowed to transit to the next Step(5). See error page.\
+5\) latestStartNextStep Step4:&emsp;&emsp;Before this time is elapsed, the transit to Step(5) must be done. See error page.\
+6\) Transit 4->5:&emsp;&emsp;It is between end of earliestStartNextStep Step4 and latestStartNextStep Step4, so it is correct.\
+7\) forceStep 1 (Reset):&emsp;&emsp;Here we jump to Step1 and not to Step0. Perhaps you want to do something different from normal startup at a reset.\
+8\) Transit 1->2:&emsp;&emsp;A transit  can be very long. But of course should be back when this step is called again.
 ***
 &emsp;&emsp;**Error**
 
 <img src="picturesFromDocument/120_TimingDiagrammError.jpg"  width=90% height=90%>
 
-1) earliestStartNextStep Step3:&emsp;&emsp;The error is immediately when the transit is to early.
-The Step4 is not activated here, because of the error.
-A startDelay Step4 would not be part of the earliestStartNextStep. So this timing graph would exactly look the same.
-2) forceStep 4:&emsp;&emsp;In this example we force Step4. We imagine that the next position was reached manually after the error, and than we force the next step.
+1\) earliestStartNextStep Step3:&emsp;&emsp;The error is immediately when the transit is to early.\
+The Step4 is not activated here, because of the error.\
+A startDelay Step4 would not be part of the earliestStartNextStep. So this timing graph would exactly look the same.\
+2\) forceStep 4:&emsp;&emsp;In this example we force Step4. We imagine that the next position was reached manually after the error, and than we force the next step.
    - Errors are reset.
    - Forcing a step skips the startDelay (when Step4 would have a startDelay).
    - latestStartNextStep (and earliestStartNextStep) always start at the activation of a step.
-3) latestStartNextStep Step4:&emsp;&emsp;The error is immediately when the latestStartNextStep is elapsed.
+
+3\) latestStartNextStep Step4:&emsp;&emsp;The error is immediately when the latestStartNextStep is elapsed.
 
 Because forceStep skips the startDelay, I would use startDelay only where it makes sense. endDelay is the normal delay.
 ***

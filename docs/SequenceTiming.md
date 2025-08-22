@@ -1,39 +1,38 @@
                 Step Sequence with Timing               19 Aug 2025 Andreas1313
 ***
 &emsp;&emsp;**Normal Timing Diagramm**
-Example for a possible timing for the timing diagramm below:\
+Example for a possible timing for the timing diagramm below:
 
 <img src="picturesFromDocument/100_StepTimeTable.jpg"  width=70% height=70%>
 
-a)  Because forceStep skips the startDelay, I would use startDelay only where it makes sense. endDelay is the normal delay.\
+a) Because forceStep skips the startDelay, I would use startDelay only where it makes sense. endDelay is the normal delay.\
 b) earliestStartNextStep_ms: When this time is elapsed, it is allowed to transfer to the next step.\
 c) latestStartNextStep_ms: The next transit must be in this time. 0 is to switch it totally off.
 
 <img src="picturesFromDocument/110_TimingDiagramm.jpg"  width=90% height=90%>
 
-1) Transit 0->2:&emsp;&emsp;You can transit between every step
-2) endDelay Step2:&emsp;&emsp;After the endDelay it switches to the next step.   
-3) endDelay Step3   startDelay Step4&emsp;&emsp;If you have both, they are cumulated
-4) earliestStartNextStep Step4:&emsp;&emsp;After this time is elapsed, it is allowed to transit to the next Step(5). See error page.
-5) latestStartNextStep Step4:&emsp;&emsp;Before this time is elapsed, the transit to Step(5) must be done. See error page.
-6) Transit 4->5:&emsp;&emsp;It is between end of earliestStartNextStep Step4 and latestStartNextStep Step4, so it is correct.
-7) forceStep 1 (Reset):&emsp;&emsp;Here we jump to Step1 and not to Step0. Perhaps you want to do something different from normal startup at a reset.
-8) Transit 1->2:&emsp;&emsp;A transit  can be very long. But of course should be back when this step is called again.
+1\) Transit 0->2:&emsp;&emsp;You can transit between every step\
+2\) endDelay Step2:&emsp;&emsp;After the endDelay it switches to the next step.\  
+3\) endDelay Step3   startDelay Step4&emsp;&emsp;If you have both, they are cumulated.\
+4\) earliestStartNextStep Step4:&emsp;&emsp;After this time is elapsed, it is allowed to transit to the next Step(5). See error page.\
+5\) latestStartNextStep Step4:&emsp;&emsp;Before this time is elapsed, the transit to Step(5) must be done. See error page.\
+6\) Transit 4->5:&emsp;&emsp;It is between end of earliestStartNextStep Step4 and latestStartNextStep Step4, so it is correct.\
+7\) forceStep 1 (Reset):&emsp;&emsp;Here we jump to Step1 and not to Step0. Perhaps you want to do something different from normal startup at a reset.\
+8\) Transit 1->2:&emsp;&emsp;A transit  can be very long. But of course should be back when this step is called again.
 ***
 &emsp;&emsp;**Error**
 
 <img src="picturesFromDocument/120_TimingDiagrammError.jpg"  width=90% height=90%>
 
-1) earliestStartNextStep Step3:&emsp;&emsp;The error is immediately when the transit is to early.
-The Step4 is not activated here, because of the error.
-A startDelay Step4 would not be part of the earliestStartNextStep. So this timing graph would exactly look the same.
-2) forceStep 4:&emsp;&emsp;In this example we force Step4. We imagine that the next position was reached manually after the error, and than we force the next step.
+1\) earliestStartNextStep Step3:&emsp;&emsp;The error is immediately when the transit is to early.\
+The Step4 is not activated here, because of the error.\
+A startDelay Step4 would not be part of the earliestStartNextStep. So this timing graph would exactly look the same.\
+2\) forceStep 4:&emsp;&emsp;In this example we force Step4. We imagine that the next position was reached manually after the error, and than we force the next step.
    - Errors are reset.
    - Forcing a step skips the startDelay (when Step4 would have a startDelay).
    - latestStartNextStep (and earliestStartNextStep) always start at the activation of a step.
-3) latestStartNextStep Step4:&emsp;&emsp;The error is immediately when the latestStartNextStep is elapsed.
 
-Because forceStep skips the startDelay, I would use startDelay only where it makes sense. endDelay is the normal delay.
+3\) latestStartNextStep Step4:&emsp;&emsp;The error is immediately when the latestStartNextStep is elapsed.
 ***
 &emsp;&emsp;**Functions and pointer variables**
 - void set_nextStep(StepType nextStep)
@@ -129,9 +128,30 @@ When you do not have this error, you can skip the next step (with the longer lat
 
 When the step after the next step should not be active immediately (which should be the normal case) you can use earliestStartNextStep: When you do not want to allow that the next transfer is already active, when the actual step getting active, than set earliestStartNextStep to a value a little bit more than your processor loop time. It will throw an error when the next step would be immediately activated.
 
-First start values for earliestStartNextStep_ms and latestStartNextStep_ms. When you want a stable run, but also an error, when something is totally running wrong:
+First start values for earliestStartNextStep_ms and latestStartNextStep_ms. When you want a stable run, but also an error, when something is totally running wrong use factor 10:
 - Set all earliestStartNextStep_ms and latestStartNextStep_ms to 0.
 - Measure the timing (with this library).
 - Set for example: earliestStartNextStep_ms = yourMeasuredTime_ms / 10.
 - Set for example: latestStartNextStep_ms = yourMeasuredTime_ms * 10.
 - Set only critical timings nearer to yourMeasuredTime.
+Please note, that a latestStartNextStep_ms < processor loop time makes no sense.
+***
+***advantages and disadvantages***
+
+You can find advantages and disadvantages of this library at the README at:
+https://github.com/Andreas1313/SequenceTiming
+
+***
+***to do***
+- Think about to implement an error check that _in_earliestStartNextStep_ms < _in_latestStartNextStep_ms
+
+***
+***License***
+
+Copyright (c) 2025. Andreas1313. 83022 Rosenheim. Germany. No:250803_sT_C_0_132
+Licensed under CC BY-NC-SA 4.0: https://creativecommons.org/licenses/by-nc-sa/4.0/.
+-Credit required  -Share alike  -No warranty provided
+-Free for private use.
+-Free for prototype use, but send an e-mail that you want to use it for prototype to andreas.rosenheim@gmail.com. You can directly start. You do not have to wait for an answer.
+-Contact for commercial use: andreas.rosenheim@gmail.com.(You only have to donate to "Doctors Without Borders", or similar institution. Which should be tax-deductible)
+ 

@@ -56,7 +56,7 @@ void ClassSequenceTiming<StepType>::sequenceProcess(){
         _event = Event::doNothingBecauseOfError;
         return;
       }
-    }// "else" allone is not enough, because of millis() overrun.(approx 50 days):
+    }
     if (_nextStep != _actualStep){
       if (millis() - _oldActiveStep_ms < _in_earliestStartNextStep_ms[uint32_t(_actualStep)]){
         _error_earliestStartNextStepNotElapsed = true;

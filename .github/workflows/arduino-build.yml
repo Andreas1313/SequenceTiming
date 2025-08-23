@@ -15,13 +15,14 @@ jobs:
       - name: Compile all examples
         uses: arduino/compile-sketches@v1
         with:
-          fqbn: |
-            arduino:avr:uno
-            arduino:avr:mega
-            arduino:megaavr:nona4809   # Arduino Nano Every
-          platforms: |
-            - name: arduino:avr
-            - name: arduino:megaavr
+          matrix:
+              fqbn:
+                - arduino:avr:uno
+                - arduino:avr:mega
+                #- arduino:sam:arduino_due_x
+                #- esp32:esp32:esp32
+                #- rp2040:rp2040:arduino_nano_rp2040_connect
+                #- arduino:mbed_rp2040:rpipico
           libraries: |
             - source-path: .
           sketch-paths: |

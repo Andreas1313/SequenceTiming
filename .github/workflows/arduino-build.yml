@@ -11,19 +11,19 @@ jobs:
     strategy:
       matrix:
         board:
+          #- fqbn: arduino:avr:uno
+          #  platform: arduino:avr
+          #- fqbn: arduino:avr:mega
+          #  platform: arduino:avr
+          #- fqbn: arduino:megaavr:nona4809   # Arduino Nano Every
+           platform: arduino:megaavr
+          # Klassische AVR Arduinos
           - fqbn: arduino:avr:uno
+            platform: arduino:avr
+          - fqbn: arduino:avr:nano
             platform: arduino:avr
           - fqbn: arduino:avr:mega
             platform: arduino:avr
-          - fqbn: arduino:megaavr:nona4809   # Arduino Nano Every
-            platform: arduino:megaavr
-          # Klassische AVR Arduinos
-          #- fqbn: arduino:avr:uno
-          #  platform: arduino:avr
-          - fqbn: arduino:avr:nano
-            platform: arduino:avr
-          #- fqbn: arduino:avr:mega
-          #  platform: arduino:avr
           - fqbn: arduino:avr:leonardo
             platform: arduino:avr
           - fqbn: arduino:avr:micro
@@ -32,8 +32,8 @@ jobs:
             platform: arduino:avr
           - fqbn: arduino:avr:yun
             platform: arduino:avr
-          #- fqbn: arduino:avr:uno_wifi_rev2
-          #  platform: arduino:megaavr
+          - fqbn: arduino:avr:uno_wifi_rev2
+            platform: arduino:megaavr
 
           # Neue AVR-Generation
           - fqbn: arduino:megaavr:nona4809     # Arduino Nano Every
@@ -56,11 +56,11 @@ jobs:
             platform: arduino:mbed_nano
           - fqbn: arduino:mbed_portenta:envie_m7
             platform: arduino:mbed_portenta
-          - fqbn: arduino:mbed_rp2040:rpipico
-            platform: arduino:mbed_rp2040
-          # - fqbn: arduino:mbed_opta:opta      # weniger verbreitet
+          #- fqbn: arduino:mbed_rp2040:rpipico
+          #  platform: arduino:mbed_rp2040
+          # - fqbn: arduino:mbed_opta:opta      # very seldom
 
-          # Drittanbieter-Pakete (müssten via source-url installiert werden)
+          # Third party (must be installed via source-url)
           # - fqbn: esp8266:esp8266:nodemcuv2
           #   platform: esp8266:esp8266
           #   url: https://arduino.esp8266.com/stable/package_esp8266com_index.json

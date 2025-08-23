@@ -8,21 +8,26 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    strategy:
+      matrix:
+        board:
+          - fqbn: arduino:avr:uno
+            platform: arduino:avr
+          - fqbn: arduino:avr:mega
+            platform: arduino:avr
+          - fqbn: arduino:megaavr:nona4809   # Arduino Nano Every
+            platform: arduino:megaavr
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
       - name: Compile all examples
         uses: arduino/compile-sketches@v1
-        #with:
-          matrix:
-              fqbn:
-                - arduino:avr:uno
-                - arduino:avr:mega
-                #- arduino:sam:arduino_due_x
-                #- esp32:esp32:esp32
-                #- rp2040:rp2040:arduino_nano_rp2040_connect
-                #- arduino:mbed_rp2040:rpipico
+        with:
+          fqbn: ${{ matrix.board.fqbn }}
+          platforms: |
+            - name: ${{ matrix.board.platform }}
           libraries: |
             - source-path: .
           sketch-paths: |

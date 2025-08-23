@@ -11,12 +11,6 @@ jobs:
     strategy:
       matrix:
         board:
-          #- fqbn: arduino:avr:uno
-          #  platform: arduino:avr
-          #- fqbn: arduino:avr:mega
-          #  platform: arduino:avr
-          #- fqbn: arduino:megaavr:nona4809   # Arduino Nano Every
-          # platform: arduino:megaavr
           # Klassische AVR Arduinos
           - fqbn: arduino:avr:uno
             platform: arduino:avr

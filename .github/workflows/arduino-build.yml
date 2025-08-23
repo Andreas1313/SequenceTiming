@@ -14,7 +14,7 @@ jobs:
 
       - name: Compile all examples
         uses: arduino/compile-sketches@v1
-        with:
+        #with:
           matrix:
               fqbn:
                 - arduino:avr:uno

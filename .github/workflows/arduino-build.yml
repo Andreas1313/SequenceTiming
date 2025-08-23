@@ -42,8 +42,8 @@ jobs:
             platform: arduino:samd
           - fqbn: arduino:samd:mkrzero
             platform: arduino:samd
-          - fqbn: arduino:samd:zero
-            platform: arduino:samd
+          #- fqbn: arduino:samd:zero
+          #  platform: arduino:samd
 
           # Mbed OS Boards
           - fqbn: arduino:mbed_nano:nano33ble

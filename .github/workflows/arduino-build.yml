@@ -79,4 +79,4 @@ jobs:
           libraries: |
             - source-path: .
           sketch-paths: |
-            examples
+            - examples

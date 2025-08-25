@@ -77,6 +77,6 @@ jobs:
           platforms: |
             - name: ${{ matrix.board.platform }}
           libraries: |
-            - source-path: .
+            - source-path: ./
           sketch-paths: |
             - examples

@@ -1,104 +1,82 @@
-name: Compile Examples
+name: Arduino CI
 
-# See: https://docs.github.com/en/free-pro-team@latest/actions/reference/events-that-trigger-workflows
 on:
   push:
-    paths:
-      - ".github/workflows/compile-examples.yml"
-      - "examples/**"
-      - "src/**"
   pull_request:
-    paths:
-      - ".github/workflows/compile-examples.yml"
-      - "examples/**"
-      - "src/**"
-  schedule:
-    # Run every Tuesday at 8 AM UTC to catch breakage caused by changes to external resources (libraries, platforms).
-    - cron: "0 8 * * TUE"
-  workflow_dispatch:
-  repository_dispatch:
 
 jobs:
   build:
-    name: ${{ matrix.board.fqbn }}
     runs-on: ubuntu-latest
 
-    env:
-      SKETCHES_REPORTS_PATH: sketches-reports
-
     strategy:
-      fail-fast: false
-
       matrix:
         board:
+          # Klassische AVR Arduinos
+          - fqbn: arduino:avr:uno
+            platform: arduino:avr
           - fqbn: arduino:avr:nano
-            platforms: |
-              - name: arduino:avr
-            artifact-name-suffix: arduino-avr-nano
+            platform: arduino:avr
           - fqbn: arduino:avr:mega
-            platforms: |
-              - name: arduino:avr
-            artifact-name-suffix: arduino-avr-mega
+            platform: arduino:avr
           - fqbn: arduino:avr:leonardo
-            platforms: |
-              - name: arduino:avr
-            artifact-name-suffix: arduino-avr-leonardo
-          - fqbn: arduino:megaavr:nona4809
-            platforms: |
-              - name: arduino:megaavr
-            artifact-name-suffix: arduino-megaavr-nona4809
-          - fqbn: arduino:sam:arduino_due_x_dbg
-            platforms: |
-              - name: arduino:sam
-            artifact-name-suffix: arduino-sam-arduino_due_x_dbg
+            platform: arduino:avr
+          - fqbn: arduino:avr:micro
+            platform: arduino:avr
+          - fqbn: arduino:avr:mini
+            platform: arduino:avr
+          - fqbn: arduino:avr:yun
+            platform: arduino:avr
+          #- fqbn: arduino:avr:uno_wifi_rev2
+          #  platform: arduino:megaavr
+
+          # Neue AVR-Generation
+          - fqbn: arduino:megaavr:nona4809     # Arduino Nano Every
+            platform: arduino:megaavr
+
+          # SAMD (ARM Cortex-M0+)
+          - fqbn: arduino:samd:nano_33_iot
+            platform: arduino:samd
+          - fqbn: arduino:samd:mkr1000
+            platform: arduino:samd
+          - fqbn: arduino:samd:mkrwifi1010
+            platform: arduino:samd
           - fqbn: arduino:samd:mkrzero
-            platforms: |
-              - name: arduino:samd
-            artifact-name-suffix: arduino-samd-mkrzero
-          - fqbn: arduino:mbed_portenta:envie_m7:target_core=cm4
-            platforms: |
-              - name: arduino:mbed_portenta
-            artifact-name-suffix: arduino-mbed_portenta-envie_m7-target_core-cm4
-          - fqbn: arduino:mbed_portenta:envie_m7
-            platforms: |
-              - name: arduino:mbed_portenta
-            artifact-name-suffix: arduino-mbed_portenta-envie_m7
+            platform: arduino:samd
+          #- fqbn: arduino:samd:zero
+          #  platform: arduino:samd
+
+          # Mbed OS Boards
           - fqbn: arduino:mbed_nano:nano33ble
-            platforms: |
-              - name: arduino:mbed_nano
-            artifact-name-suffix: arduino-mbed_nano-nano33ble
-          - fqbn: arduino:mbed_nano:nanorp2040connect
-            platforms: |
-              - name: arduino:mbed_nano
-            artifact-name-suffix: arduino-mbed_nano-nanorp2040connect
-          - fqbn: arduino:esp32:nano_nora
-            platforms: |
-              - name: arduino:esp32
-            artifact-name-suffix: arduino-esp32-nano_nora
+            platform: arduino:mbed_nano
+          - fqbn: arduino:mbed_portenta:envie_m7
+            platform: arduino:mbed_portenta
+          #- fqbn: arduino:mbed_rp2040:rpipico
+          #  platform: arduino:mbed_rp2040
+          # - fqbn: arduino:mbed_opta:opta      # very seldom
+
+          # Third party (must be installed via source-url)
+          # - fqbn: esp8266:esp8266:nodemcuv2
+          #   platform: esp8266:esp8266
+          #   url: https://arduino.esp8266.com/stable/package_esp8266com_index.json
+          # - fqbn: esp32:esp32:esp32
+          #   platform: esp32:esp32
+          #   url: https://dl.espressif.com/dl/package_esp32_index.json
+          # - fqbn: rp2040:rp2040:rpipico
+          #   platform: rp2040:rp2040
+          #   url: https://github.com/earlephilhower/arduino-pico/releases/download/global/package_rp2040_index.json
+
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v5
+      - name: Checkout
+        uses: actions/checkout@v4
 
-      - name: Compile examples
+      - name: Compile all examples
         uses: arduino/compile-sketches@v1
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
           fqbn: ${{ matrix.board.fqbn }}
-          platforms: ${{ matrix.board.platforms }}
+          platforms: |
+            - name: ${{ matrix.board.platform }}
           libraries: |
-            # Install the library from the local path.
-            - source-path: ./
-            # Additional library dependencies can be listed here.
-            # See: https://github.com/arduino/compile-sketches#libraries
+            - source-path: .
           sketch-paths: |
             - examples
-          enable-deltas-report: true
-          sketches-report-path: ${{ env.SKETCHES_REPORTS_PATH }}
-
-      - name: Save sketches report as workflow artifact
-        uses: actions/upload-artifact@v4
-        with:
-          if-no-files-found: error
-          path: ${{ env.SKETCHES_REPORTS_PATH }}
-          name: sketches-report-${{ matrix.board.artifact-name-suffix }}

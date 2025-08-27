@@ -15,28 +15,25 @@ class ClassSequenceTiming {
   //Is the active _actualStep:
   StepType _actualStep;
   StepType _nextStep;
-  //start delay before a step get active. (Only use this when reasonable. Normal use is _in_endDelay_ms):
-  const uint32_t *const _in_startDelay_ms;
   //The next step must be after the _in_earliestStartNextStep_ms elapsed:
   const uint32_t *const _in_earliestStartNextStep_ms;
   //The next step must be before the _latestStartNextStep elapsed.
   // 0 is to wait forever without error:
   const uint32_t *const _in_latestStartNextStep_ms; 
-  //Array. After the _endDelay of the _actualStep the _startDelay of the _nextStep is waiting:
+  //Array. For the time of _endDelay the _actualStep is active and the _nextStep is waiting:
   const uint32_t *const _in_endDelay_ms;
-  //Array. Complete time a step is active. Within the _startDelay from _nextStep!:
+  //Array. Complete time a step is active. Within the _endDelay:
   uint32_t *const _out_stepWasActive_ms;
 
    //sequence-chain for one step in sequence-chain ;-) . I use the word "event" instead of "step" to have a difference.
-  enum struct Event{startTimeForActiveStep, eventIsActive, endDelayAndBeginOfStartDelay, startNextStep, doNothingBecauseOfError};
-  Event _event = Event::startTimeForActiveStep;
+  enum struct Event{StartTimeForActiveStep, EventIsActive, EndDelay, DoNothingBecauseOfError};
+  Event _event = Event::StartTimeForActiveStep;
 
   //When the _nextStep is called to early, you get the _error_earliestStartNextStepNotElapsed:
   bool _error_earliestStartNextStepNotElapsed = false;
   //After this latestStartNextStep you get immediately the _error_latestStartNextStepReached. 0 is to switch it off:
   bool _error_latestStartNextStepReached = false;
 
-  uint32_t _oldStartDelay_ms;
   //for _in_latestStartNextStep_ms, _in_earliestStartNextStep_ms and _out_stepWasActive_ms:
   uint32_t _oldActiveStep_ms;
   uint32_t _oldEndDelay_ms;
@@ -46,13 +43,12 @@ class ClassSequenceTiming {
 
  public:
   ClassSequenceTiming(StepType startStep,
-                      const uint32_t *const in_startDelay_ms, //Pointer to array
                       const uint32_t *const in_earliestStartNextStep_ms, //Pointer to array
                       const uint32_t *const in_latestStartNextStep_ms, //Pointer to array
                       const uint32_t *const in_endDelay_ms, //Pointer to array
                       uint32_t *const       out_stepTime_ms); //Pointer to array
 
-  //after _startDelay/_endDelay and no Error, this _nextStep will be the _actualStep:
+  //after _endDelay and no Error, this _nextStep will be the _actualStep:
   void set_nextStep(StepType nextStep);
   //call this in every loop:
   void sequenceProcess();
@@ -61,9 +57,8 @@ class ClassSequenceTiming {
 
 // - Reset Errors
 // - Force _actualStep
-// - No startDelay.
 // - Internal Information: Force _nextStep. For this: "if (_nextStep != _actualStep &&....){""
-// - Internal Information: Go to Event:startTimeForActiveStep:
+// - Internal Information: Go to Event:StartTimeForActiveStep:
   void set_forceStepImmediately(StepType forceStep);
 
   //get the error, when the next step was to fast:

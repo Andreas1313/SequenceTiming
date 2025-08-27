@@ -18,19 +18,16 @@ uint32_t ClassSequenceTiming<StepType>::getActualEvent() {
 //public:
 template<typename StepType>
 ClassSequenceTiming<StepType>::ClassSequenceTiming(StepType startStep,
-                      const uint32_t *const in_startDelay_ms,
                       const uint32_t *const in_earliestStartNextStep_ms,
                       const uint32_t *const in_latestStartNextStep_ms,
                       const uint32_t *const in_endDelay_ms,
-                      uint32_t *const out_stepTime_ms):
-                      _actualStep(startStep),
-                      _nextStep(startStep),
-                      //With the "new" the array is enlarged, because it is in "constuctor initializer list" it is done at compile time:
-                      _in_startDelay_ms(in_startDelay_ms),
-                      _in_earliestStartNextStep_ms(in_earliestStartNextStep_ms),
-                      _in_latestStartNextStep_ms(in_latestStartNextStep_ms),
-                      _in_endDelay_ms(in_endDelay_ms),
-                      _out_stepWasActive_ms(out_stepTime_ms){
+                      uint32_t *const out_stepTime_ms)
+                    : _actualStep(startStep)
+                    , _nextStep(startStep)
+                    , _in_earliestStartNextStep_ms(in_earliestStartNextStep_ms)
+                    , _in_latestStartNextStep_ms(in_latestStartNextStep_ms)
+                    , _in_endDelay_ms(in_endDelay_ms)
+                    , _out_stepWasActive_ms(out_stepTime_ms){
 }
 
 template<typename StepType>
@@ -43,48 +40,41 @@ void ClassSequenceTiming<StepType>::sequenceProcess(){
   //Use "if" and not "switch case", because it must run through in one go.
 
   //for very first Step (from constructor) or for forceStepImmediately:
-  if (_event == Event::startTimeForActiveStep){
+  if (_event == Event::StartTimeForActiveStep){
     _oldActiveStep_ms = millis(); //Used for _in_latestStartNextStep_ms, _in_earliestStartNextStep_ms and _out_stepWasActive_ms
-    _event = Event::eventIsActive;
+    _event = Event::EventIsActive;
   }
   //This is called as long as the step is active:
-  if (_event == Event::eventIsActive){
+  if (_event == Event::EventIsActive){
     // Step is in time:
     if (_in_latestStartNextStep_ms[uint32_t(_actualStep)] != 0){ //if == 0, _in_latestStartNextStep_ms is not used
       if (millis() - _oldActiveStep_ms >= _in_latestStartNextStep_ms[uint32_t(_actualStep)]){
         _error_latestStartNextStepReached = true;
-        _event = Event::doNothingBecauseOfError;
+        _event = Event::DoNothingBecauseOfError;
         return;
       }
     }
     if (_nextStep != _actualStep){
       if (millis() - _oldActiveStep_ms < _in_earliestStartNextStep_ms[uint32_t(_actualStep)]){
         _error_earliestStartNextStepNotElapsed = true;
-        _event = Event::doNothingBecauseOfError;
+        _event = Event::DoNothingBecauseOfError;
         return;
       }
       //Only do this when there is no error AND _nextStep != _actualStep:
       _out_stepWasActive_ms[uint32_t(_actualStep)] = millis() - _oldActiveStep_ms;
       _oldEndDelay_ms = millis();
-      _event = Event::endDelayAndBeginOfStartDelay;
+      _event = Event::EndDelay;
     }
   }
-  if (_event == Event::endDelayAndBeginOfStartDelay){
+  if (_event == Event::EndDelay){
     if(millis() - _oldEndDelay_ms >= _in_endDelay_ms[uint32_t(_actualStep)]){
-      _out_stepWasActive_ms[uint32_t(_actualStep)] = millis() - _oldActiveStep_ms;
-      _oldStartDelay_ms = millis();
-      _event = Event::startNextStep;
-    }
-  }
-  if (_event == Event::startNextStep){
-    if (millis() - _oldStartDelay_ms >= _in_startDelay_ms[uint32_t(_nextStep)]){
       _out_stepWasActive_ms[uint32_t(_actualStep)] = millis() - _oldActiveStep_ms;
       _actualStep = _nextStep;
       _oldActiveStep_ms = millis(); //Used for _in_latestStartNextStep_ms, _in_earliestStartNextStep_ms and _out_stepWasActive_ms
-      _event = Event::eventIsActive;
+      _event = Event::EventIsActive;
     }
   }
-  if (_event == Event::doNothingBecauseOfError){ //You have to reset the error and set _event == Event::startTimeForActiveStep
+  if (_event == Event::DoNothingBecauseOfError){ //You have to reset the error and set _event == Event::StartTimeForActiveStep
     _out_stepWasActive_ms[uint32_t(_actualStep)] = millis() - _oldActiveStep_ms;
   }
 }
@@ -100,7 +90,7 @@ void ClassSequenceTiming<StepType>::set_forceStepImmediately(StepType forceStep)
   _error_earliestStartNextStepNotElapsed = false;
   _actualStep = forceStep;
   _nextStep   = forceStep;
-  _event      = Event::startTimeForActiveStep;
+  _event      = Event::StartTimeForActiveStep;
 }
 
 template<typename StepType>

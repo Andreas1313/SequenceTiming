@@ -23,13 +23,11 @@ enum class GateStep{
   VeryLastEnum
 };
                                                   // S0_,  S1_,  S2_,  S3_,  S4_,  S5_,  S6_,  S7_,  S8_,  S9_, S10_
-uint32_t inputAtClass_startDelay_ms[]            ={    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0};
 uint32_t inputAtClass_earliestStartNextStep_ms[] ={    2,    0,    2,    2,    2,    2,    2,    0,    2,    2,    2};
 uint32_t inputAtClass_latestStartNextStep_ms[]   ={    0,    0,30000,    0,10000, 4000,    0,    0,10000, 4000,    0}; // 0 is to wait forever without error
 uint32_t inputAtClass_endDelay_ms[]              ={    0,  200,    0,    0,    0,    0,    0, 5000,    0,    0,    0};
 uint32_t outputFromClass_stepTime_ms[]           ={    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0};
 ClassSequenceTiming<GateStep> gate_1(GateStep::S0_DoNothing,
-                            inputAtClass_startDelay_ms,
                             inputAtClass_earliestStartNextStep_ms,
                             inputAtClass_latestStartNextStep_ms,
                             inputAtClass_endDelay_ms,
@@ -46,13 +44,11 @@ enum class BlinkLight{
   VeryLastEnum
 };
                                                              // S0_,  S1_,  S2_,  S3_
-uint32_t inputAtClass_startDelaySignalLight_ms[]            ={    0,    0,    0,    0};
 uint32_t inputAtClass_earliestStartNextStepSignalLight_ms[] ={    0,    0,    0,    0};
 uint32_t inputAtClass_latestStartNextStepSignalLight_ms[]   ={    0,    0,    0,    0}; // 0 is to wait forever without error
 uint32_t inputAtClass_endDelaySignalLight_ms[]              ={    0,  500,  500,    0};
 uint32_t outputFromClass_stepTimeSignalLight_ms[]           ={    0,    0,    0,    0};
 ClassSequenceTiming<BlinkLight> signalLight(BlinkLight::S0_DoNothing,
-                            inputAtClass_startDelaySignalLight_ms,
                             inputAtClass_earliestStartNextStepSignalLight_ms,
                             inputAtClass_latestStartNextStepSignalLight_ms,
                             inputAtClass_endDelaySignalLight_ms,

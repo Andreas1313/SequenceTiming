@@ -5,7 +5,6 @@ Example for a possible timing for the timing diagramm below:
 
 <img src="picturesFromDocument/100_StepTimeTable.jpg"  width=70% height=70%>
 
-a) Because forceStep skips the startDelay, I would use startDelay only where it makes sense. endDelay is the normal delay.\
 b) earliestStartNextStep_ms: When this time is elapsed, it is allowed to transfer to the next step.\
 c) latestStartNextStep_ms: The next transit must be in this time. 0 is to switch it totally off.
 
@@ -13,7 +12,7 @@ c) latestStartNextStep_ms: The next transit must be in this time. 0 is to switch
 
 1\) Transit 0->2:&emsp;&emsp;You can transit between every step\
 2\) endDelay Step2:&emsp;&emsp;After the endDelay it switches to the next step.\  
-3\) endDelay Step3   startDelay Step4&emsp;&emsp;If you have both, they are cumulated.\
+3\) endDelay Step3
 4\) earliestStartNextStep Step4:&emsp;&emsp;After this time is elapsed, it is allowed to transit to the next Step(5). See error page.\
 5\) latestStartNextStep Step4:&emsp;&emsp;Before this time is elapsed, the transit to Step(5) must be done. See error page.\
 6\) Transit 4->5:&emsp;&emsp;It is between end of earliestStartNextStep Step4 and latestStartNextStep Step4, so it is correct.\
@@ -26,17 +25,15 @@ c) latestStartNextStep_ms: The next transit must be in this time. 0 is to switch
 
 1\) earliestStartNextStep Step3:&emsp;&emsp;The error is immediately when the transit is to early.\
 The Step4 is not activated here, because of the error.\
-A startDelay Step4 would not be part of the earliestStartNextStep. So this timing graph would exactly look the same.\
 2\) forceStep 4:&emsp;&emsp;In this example we force Step4. We imagine that the next position was reached manually after the error, and than we force the next step.
    - Errors are reset.
-   - Forcing a step skips the startDelay (when Step4 would have a startDelay).
    - latestStartNextStep (and earliestStartNextStep) always start at the activation of a step.
 
 3\) latestStartNextStep Step4:&emsp;&emsp;The error is immediately when the latestStartNextStep is elapsed.
 ***
 &emsp;&emsp;**Functions and pointer variables**
 - void set_nextStep(StepType nextStep)
-After _startDelay/_endDelay and no Error, this _nextStep will be the _actualStep.
+After _endDelay and no Error, this _nextStep will be the _actualStep.
 - void sequenceProcess()
 Call this in every loop().
 - StepType get_actualStep()
@@ -44,7 +41,6 @@ Get the actual active step.
 - void set_forceStepImmediately(StepType forceStep);
   - Force to the forceStep 
   - Reset Errors
-  - No startDelay
 
 - bool get_error_latestStartNextStepElapsed()  -  in_latestStartNextStep_ms[] 
   - You can use this as fatal error (restart of device, or reset button press – force step).
@@ -57,11 +53,9 @@ Get the actual active step.
   - You can use this as fatal error (restart of device, or reset button press – force step).
   - You can directly change in_earliestStartNextStep_ms[] of the actual step. And repeat the actual step with forceStepImmediately..
 
-- in_startDelay_ms[] / in_endDelay_ms[]
-The delay between two steps is always endDelay + startDelay. Use it where it is more reasonable.
-Example for startDelay: Before a cylinder moves, you want to wait a vibration time. So use the startDelay
+- in_endDelay_ms[]
+The delay between two steps is always endDelay.
 Example for endDelay: After you send some text to a display, the user should have some time read, but than you want to proceed.
-Normally endDelay is used because at forcing to a step the startDelay is skipped.
 You can always write to them. They will immediately valid (pointer)
 
 - out_stepTime_ms[]

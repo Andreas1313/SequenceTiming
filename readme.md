@@ -5,7 +5,6 @@ Sequencer is the same as state machine and step chains. It has nothing to do wit
 If you want to use a sequence chain, you have very often to use timing. Then you need to use "SequenceTiming."
 
 ***Advantage***
-- startDelay of every step
 - endDelay of every step
 - Error when time of one step is elapsed is possible.
 - Error when the next step was to early activated is possible.

@@ -9,32 +9,43 @@ Licensed under CC BY-NC-SA 4.0: https://creativecommons.org/licenses/by-nc-sa/4.
 #pragma once
 //Important: call sequenceProcess() at every loop.
 
+//global:
+enum class SequenceTimingError{
+  NoError,
+  EarliestNextStepNotElapsed, //When the next step was to fast
+  LatestNextStepElapsed       //When the time is elapsed
+};
+
 template<typename StepType>
 class ClassSequenceTiming {
  private:
   //Is the active _actualStep:
   StepType _actualStep;
   StepType _nextStep;
-  //The next step must be after the _in_earliestStartNextStep_ms elapsed:
-  const uint32_t *const _in_earliestStartNextStep_ms;
-  //The next step must be before the _latestStartNextStep elapsed.
+  //The next step must be after the _in_earliestNextStep_ms elapsed:
+  const uint32_t *const _in_earliestNextStep_ms;
+  //The next step must be before the _latestNextStep elapsed.
   // 0 is to wait forever without error:
-  const uint32_t *const _in_latestStartNextStep_ms; 
+  const uint32_t *const _in_latestNextStep_ms; 
   //Array. For the time of _endDelay the _actualStep is active and the _nextStep is waiting:
   const uint32_t *const _in_endDelay_ms;
   //Array. Complete time a step is active. Within the _endDelay:
   uint32_t *const _out_stepWasActive_ms;
 
    //sequence-chain for one step in sequence-chain ;-) . I use the word "event" instead of "step" to have a difference.
-  enum struct Event{StartTimeForActiveStep, EventIsActive, EndDelay, DoNothingBecauseOfError};
+  enum class Event{StartTimeForActiveStep, EventIsActive, EndDelay, DoNothingBecauseOfError};
   Event _event = Event::StartTimeForActiveStep;
 
-  //When the _nextStep is called to early, you get the _error_earliestStartNextStepNotElapsed:
-  bool _error_earliestStartNextStepNotElapsed = false;
-  //After this latestStartNextStep you get immediately the _error_latestStartNextStepReached. 0 is to switch it off:
-  bool _error_latestStartNextStepReached = false;
+  SequenceTimingError sequenceTimingError = SequenceTimingError::NoError;
 
-  //for _in_latestStartNextStep_ms, _in_earliestStartNextStep_ms and _out_stepWasActive_ms:
+
+  //When the _nextStep is called to early, you get the _error_earliestNextStepNotElapsed:
+  //bool _error_earliestNextStepNotElapsed = false;
+  //After this latestNextStep you get immediately the _error_latestNextStepElapsed. 0 is to switch it off:
+  //bool _error_latestNextStepElapsed = false;
+
+
+  //for _in_latestNextStep_ms, _in_earliestNextStep_ms and _out_stepWasActive_ms:
   uint32_t _oldActiveStep_ms;
   uint32_t _oldEndDelay_ms;
 
@@ -43,27 +54,33 @@ class ClassSequenceTiming {
 
  public:
   ClassSequenceTiming(StepType startStep,
-                      const uint32_t *const in_earliestStartNextStep_ms, //Pointer to array
-                      const uint32_t *const in_latestStartNextStep_ms, //Pointer to array
+                      const uint32_t *const in_earliestNextStep_ms, //Pointer to array
+                      const uint32_t *const in_latestNextStep_ms, //Pointer to array
                       const uint32_t *const in_endDelay_ms, //Pointer to array
                       uint32_t *const       out_stepTime_ms); //Pointer to array
 
   //after _endDelay and no Error, this _nextStep will be the _actualStep:
-  void set_nextStep(StepType nextStep);
+  void setNextStep(StepType nextStep);
   //call this in every loop:
-  void sequenceProcess();
+  bool sequenceProcess_error();
   //get the actual active step:
-  StepType get_actualStep();
+  StepType getActualStep();
 
 // - Reset Errors
 // - Force _actualStep
 // - Internal Information: Force _nextStep. For this: "if (_nextStep != _actualStep &&....){""
 // - Internal Information: Go to Event:StartTimeForActiveStep:
-  void set_forceStepImmediately(StepType forceStep);
+  void setForceStepImmediately(StepType forceStep);
+
+  SequenceTimingError getError();
+
 
   //get the error, when the next step was to fast:
-  bool get_error_earliestStartNextStepNotElapsed();
+  //bool getError_earliestNextStepNotElapsed();
   //get the error, when the time is elapsed. See more information in info.adoc:
-  bool get_error_latestStartNextStepElapsed();
+  //bool getError_latestNextStepElapsed();
+
+
+  uint32_t get_pendingTimeOfEndDelay_ms();
 };
 #include "SequenceTiming.tpp"

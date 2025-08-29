@@ -5,8 +5,8 @@ Example for a possible timing for the timing diagramm below:
 
 <img src="picturesFromDocument/100_StepTimeTable.jpg"  width=70% height=70%>
 
-b) earliestStartNextStep_ms: When this time is elapsed, it is allowed to transfer to the next step.\
-c) latestStartNextStep_ms: The next transit must be in this time. 0 is to switch it totally off.
+1\) earliestStartNextStep_ms: When this time is elapsed, it is allowed to transfer to the next step.\
+2\) latestStartNextStep_ms: The next transit must be in this time. 0 is to switch it totally off.
 
 <img src="picturesFromDocument/110_TimingDiagramm.jpg"  width=90% height=90%>
 

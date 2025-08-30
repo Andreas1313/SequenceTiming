@@ -2,7 +2,7 @@
 
 enum class GateStep{
   S0_DoNothing,
-//Jump to this to start the reference drive. When the bar is down already, skip the S2_SlowDownReference
+//Jump to this to start the reference drive. When the bar is down already, skip tc:\Users\andre\Desktop\Andi\2025\109_TortoiseGit\101_SequenceTiming\SequenceTiming\examples\40_boomBar\src\SequenceTiming.hhe S2_SlowDownReference
   S1_StartReference,
 //At the very first reference, the speed must be slow:
   S2_SlowDownReference,

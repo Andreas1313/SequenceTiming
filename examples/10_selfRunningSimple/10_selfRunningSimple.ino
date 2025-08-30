@@ -28,14 +28,14 @@ const uint8_t LED_BUILTIN_pin  {LED_BUILTIN};
 
 //If Step S1_Output_D0 is one time active (in setup()), it change every 2000ms between step S2_Output_LED_BUILTIN and step S1_Output_D0
 void sequenceLoopSimple(){
-  switch (simple_1.get_actualStep()){
+  switch (simple_1.getActualStep()){
     case Step::S0_DoNothing:
       break;
     case Step::S1_Output_D0:
-      simple_1.set_nextStep(Step::S2_Output_LED_BUILTIN);
+      simple_1.setNextStep(Step::S2_Output_LED_BUILTIN);
       break;
     case Step::S2_Output_LED_BUILTIN:
-      simple_1.set_nextStep(Step::S1_Output_D0);
+      simple_1.setNextStep(Step::S1_Output_D0);
       break;
     case Step::S3_DoNothing: //Not used
       break;
@@ -48,8 +48,8 @@ void sequenceLoopSimple(){
   }
 
 //Separate the Output from the sequence:
-  digitalWrite(D0_pin, simple_1.get_actualStep() == Step::S1_Output_D0);
-  digitalWrite(LED_BUILTIN_pin, simple_1.get_actualStep() == Step::S2_Output_LED_BUILTIN);
+  digitalWrite(D0_pin, simple_1.getActualStep() == Step::S1_Output_D0);
+  digitalWrite(LED_BUILTIN_pin, simple_1.getActualStep() == Step::S2_Output_LED_BUILTIN);
 }
 
 //Serial Monitor must be open.
@@ -65,19 +65,20 @@ void setup(){
 
 
   //The S0_DoNothing is active from the constructor of the class. But to start, we have to set it to step 1 (S1_Output_D0):
-  simple_1.set_nextStep(Step::S1_Output_D0);  
+  simple_1.setNextStep(Step::S1_Output_D0);  
 }
 
 void loop(){
    //This two calls are all you need in loop():
-  simple_1.sequenceProcess(); 
+  simple_1.sequenceProcess_error(); 
   sequenceLoopSimple();
 
 //This is only for Serial print:
   static Step oldStep = Step::VeryLastEnum;
-  if(oldStep != simple_1.get_actualStep()){ //If the step change, print the actual step
-    oldStep = simple_1.get_actualStep();
+  Step step = simple_1.getActualStep();
+  if(oldStep != step){ //If the step change, print the actual step
+    oldStep = step;
     Serial.print(F("Actual Step (int): "));
-    Serial.println(uint32_t(simple_1.get_actualStep())); //to convert the type "Step" to int use uint32_t(...
+    Serial.println(uint32_t(step)); //to convert the type "Step" to int use uint32_t(...
   }
 }

@@ -25,24 +25,24 @@ void loop() {
   sequenceLoopSignalLight();
 
   if ( ! digitalRead(resetAndStartButton_pin)){
-    gate_1.set_forceStepImmediately(GateStep::S1_StartReference);
+    gate_1.setForceStep(GateStep::S1_StartReference);
   }
 
   static GateStep oldStep = GateStep::VeryLastEnum;
-  if(oldStep != gate_1.get_actualStep()){
-    oldStep = gate_1.get_actualStep();
+  if(oldStep != gate_1.getActualStep()){
+    oldStep = gate_1.getActualStep();
     Serial.print(F("Actual Step (int): "));
-    Serial.print(uint32_t(gate_1.get_actualStep()));
+    Serial.print(uint32_t(gate_1.getActualStep()));
     Serial.print(F(". endDelay: "));
-    Serial.print(inputAtClass_endDelay_ms[uint32_t(gate_1.get_actualStep())]);
+    Serial.print(inputAtClass_endDelay_ms[uint32_t(gate_1.getActualStep())]);
     Serial.println(F("ms"));
   }
 
   static uint32_t printError_ms = millis();
-  if (gate_1.get_error_latestStartNextStepElapsed() && millis() - printError_ms > 3000){
+  if (gate_1.getError() == SequenceTimingError::LatestNextStepElapsed && millis() - printError_ms > 3000){
     printError_ms = millis();
     Serial.print(F("error_stepTimeElapsed at Step (int): "));
-    Serial.println(uint32_t(gate_1.get_actualStep()));
+    Serial.println(uint32_t(gate_1.getActualStep()));
     for(uint32_t stepNumber = 0; stepNumber < uint32_t(GateStep::VeryLastEnum); stepNumber++){
       Serial.print(F("Time when Step was last time active. Step "));
       Serial.print(stepNumber);
@@ -51,11 +51,11 @@ void loop() {
       Serial.println(F("ms. "));
     }
   }
-  if (gate_1.get_error_earliestStartNextStepNotElapsed() && millis() - printError_ms > 3000){
+  if (gate_1.getError() == SequenceTimingError::EarliestNextStepNotElapsed && millis() - printError_ms > 3000){
     printError_ms = millis();
     Serial.print(F("error_minimumTime of "));
-    Serial.print(inputAtClass_earliestStartNextStep_ms[uint32_t(gate_1.get_actualStep())]);
+    Serial.print(inputAtClass_earliestStartNextStep_ms[uint32_t(gate_1.getActualStep())]);
     Serial.print(F(" ms. NotElapsed at Step (int): "));
-    Serial.println(uint32_t(gate_1.get_actualStep()));
+    Serial.println(uint32_t(gate_1.getActualStep()));
   }
 }

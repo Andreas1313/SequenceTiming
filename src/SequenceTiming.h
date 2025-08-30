@@ -38,16 +38,12 @@ class ClassSequenceTiming {
 
   SequenceTimingError sequenceTimingError = SequenceTimingError::NoError;
 
-
-  //When the _nextStep is called to early, you get the _error_earliestNextStepNotElapsed:
-  //bool _error_earliestNextStepNotElapsed = false;
-  //After this latestNextStep you get immediately the _error_latestNextStepElapsed. 0 is to switch it off:
-  //bool _error_latestNextStepElapsed = false;
-
-
   //for _in_latestNextStep_ms, _in_earliestNextStep_ms and _out_stepWasActive_ms:
   uint32_t _oldActiveStep_ms;
   uint32_t _oldEndDelay_ms;
+
+  uint32_t _deltaEndDelay_ms;
+  bool _endDelaySmallerZero;
 
   //Only for debug:
   uint32_t getActualEvent();
@@ -68,19 +64,11 @@ class ClassSequenceTiming {
 
 // - Reset Errors
 // - Force _actualStep
-// - Internal Information: Force _nextStep. For this: "if (_nextStep != _actualStep &&....){""
 // - Internal Information: Go to Event:StartTimeForActiveStep:
-  void setForceStepImmediately(StepType forceStep);
-
+  void setForceStep(StepType forceStep);
+//Rest of the endDelay:
+  uint32_t getPendingEndDelay_ms();
+//See global enum class SequenceTimingError:
   SequenceTimingError getError();
-
-
-  //get the error, when the next step was to fast:
-  //bool getError_earliestNextStepNotElapsed();
-  //get the error, when the time is elapsed. See more information in info.adoc:
-  //bool getError_latestNextStepElapsed();
-
-
-  uint32_t get_pendingTimeOfEndDelay_ms();
 };
 #include "SequenceTiming.tpp"

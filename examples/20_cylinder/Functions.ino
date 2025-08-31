@@ -31,7 +31,6 @@ Start condition: The cylinder is left
 - S4_Wait3s
 - S1_MoveCylinderToRight   (D0MoveCylinderToRight_pin)
 - Repeat: S1_.. The cylinder need approx 10 s.. */
-*/
 
 void sequenceLoopSimple(){
   switch (cylinder.getActualStep()){

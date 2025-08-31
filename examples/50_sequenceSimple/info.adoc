@@ -1,0 +1,2 @@
+***Documentation of this SequenceTiming library***
+https://github.com/Andreas1313/SequenceTiming/blob/main/docs/SequenceTiming.md

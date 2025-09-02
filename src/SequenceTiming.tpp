@@ -72,7 +72,6 @@ bool ClassSequenceTiming<StepType>::sequenceProcess_error(){
     if(_deltaEndDelay_ms >= _in_endDelay_ms[uint32_t(_actualStep)]){
       _deltaEndDelay_ms = 0;
       _actualStep = _nextStep;
-      _endDelaySmallerZero = false;
       _oldActiveStep_ms = millis(); //Used for _in_latestNextStep_ms, _in_earliestNextStep_ms and _out_stepWasActive_ms
       _event = Event::EventIsActive;
     }

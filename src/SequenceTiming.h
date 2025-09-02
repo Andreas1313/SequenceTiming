@@ -43,7 +43,6 @@ class ClassSequenceTiming {
   uint32_t _oldEndDelay_ms;
 
   uint32_t _deltaEndDelay_ms;
-  bool _endDelaySmallerZero;
 
   //Only for debug:
   uint32_t getActualEvent();
